@@ -56,13 +56,15 @@ public class p_physics : MonoBehaviour
             if (pc.hsp < 0)
             {
                 int i;
-                for (i = 0; i < pc.hsp; i -= 1)
+                for (i = 0; i > pc.hsp; i -= 1)
                 {
                     gameObject.transform.position += new Vector3(-1* Time.deltaTime/2, 0, 0);
 
                 }
             }
         }
+
+      
 
         //v movement
         {
@@ -76,11 +78,11 @@ public class p_physics : MonoBehaviour
                 }
             }
 
-
+           
             if (pc.vsp < 0)
             {
                 int i;
-                for (i = 0; i < pc.vsp && !isGrouafn; i -= 1)
+                for (i = 0; i > pc.vsp && !isGrouafn; i -= 1)
                 {
                     gameObject.transform.position += new Vector3(0, 1* Time.deltaTime/2, 0);
 
