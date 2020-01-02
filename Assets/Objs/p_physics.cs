@@ -5,6 +5,10 @@ using UnityEngine;
 public class p_physics : MonoBehaviour
 {
     public PlayerCreate pc;
+    public CollRight CR;
+    public CollLeft CL;
+    public CollUp CU;
+    public CollDown CD;
     public bool isGrouafn;
 
 
@@ -40,93 +44,78 @@ public class p_physics : MonoBehaviour
                 pc.vsp = -pc.vspl;
             }
         }
-
         //h movement
         {
             if (pc.hsp > 0)
             {
                 int i;
-                for (i = 0; i < pc.hsp; i += 1)
+                for (i = 0; i < pc.hsp && !CR.isCollRight; i += 1)
                 {
-                    gameObject.transform.position += new Vector3(1* Time.deltaTime/2, 0, 0);
-
+                    gameObject.transform.position += new Vector3(1 * Time.deltaTime, 0, 0);
                 }
             }
 
             if (pc.hsp < 0)
             {
                 int i;
-                for (i = 0; i > pc.hsp; i -= 1)
+                for (i = 0; i > pc.hsp && !CL.isCollLeft; i -= 1)
                 {
-                    gameObject.transform.position += new Vector3(-1* Time.deltaTime/2, 0, 0);
-
+                    gameObject.transform.position += new Vector3(-1 * Time.deltaTime, 0, 0);
                 }
             }
         }
 
-      
-
-        //v movement
+        //V movement
         {
             if (pc.vsp > 0)
             {
                 int i;
-                for (i = 0; i < pc.vsp && !isGrouafn; i += 1)
+                for (i = 0; i < pc.vsp && !CD.isCollDown; i += 1)
                 {
-                    gameObject.transform.position += new Vector3(0, -1 * Time.deltaTime/2, 0);
-
+                    gameObject.transform.position += new Vector3(0, -1 * Time.deltaTime, 0);
                 }
             }
 
-           
             if (pc.vsp < 0)
             {
                 int i;
-                for (i = 0; i > pc.vsp && !isGrouafn; i -= 1)
+                for (i = 0; i > pc.vsp && !CU.isCollUp; i -= 1)
                 {
-                    gameObject.transform.position += new Vector3(0, 1* Time.deltaTime/2, 0);
-
+                    gameObject.transform.position += new Vector3(0, 1 * Time.deltaTime, 0);
                 }
             }
         }
 
-
-        //land
+        //wall collider thing 
         {
-            if (pc.vsp >= 0 && !pc.ground && isGrouafn)
+          
+        }
+
+        //lanind
+        {
+            if(pc.vsp >=0 && !pc.ground && CD.isCollDown)
             {
                 pc.vsp = 0;
                 pc.ground = true;
             }
         }
 
-        //Leave Ground
+        //leave ground
         {
-            if(isGrouafn == false && pc.ground)
+            if(!CD.isCollDown&& pc.ground)
             {
                 pc.ground = false;
             }
         }
 
         //gravity
-        if (!pc.ground)
         {
-            pc.vsp += pc.grv;
+            if (!pc.ground)
+            {
+                pc.vsp += pc.grv;
+            }
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        isGrouafn = true;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        isGrouafn = true;
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        isGrouafn = false;
-    }
+   
 }
    
